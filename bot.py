@@ -48,14 +48,12 @@ async def menu(event):
     keyboard_buttons = ReplyKeyboardMarkup(
         [
             KeyboardButtonRow([KeyboardButton(text="Изменить битрейт")]),
-            KeyboardButtonRow([KeyboardButton(text="Отзеркалить")]),
-            KeyboardButtonRow([KeyboardButton(text="Наложить картинку")]),
         ]
     )
     await event.respond("Выбери действие:", buttons=keyboard_buttons)
 
 
-@bot.on(events.NewMessage(pattern="(Изменить битрейт|Отзеркалить|Наложить картинку)"))
+@bot.on(events.NewMessage(pattern="(Изменить битрейт)"))
 async def set_state(event):
     global user_states
 
@@ -66,16 +64,6 @@ async def set_state(event):
         current_state = "change_bitrate"
         user_states[user_id] = current_state
         await event.respond(CHANGE_BITRATE_MESSAGE)
-
-    elif new_state == "Отзеркалить":
-        current_state = "mirror_horizontal"
-        user_states[user_id] = current_state
-        await event.respond(MIRROR_HORIZONTAL_MESSAGE)
-
-    elif new_state == "Наложить картинку":
-        current_state = "add_a_picture"
-        user_states[user_id] = current_state
-        await event.respond(ADD_A_PICTURE_MESSAGE)
 
 
 @bot.on(events.NewMessage)
